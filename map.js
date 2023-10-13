@@ -85,6 +85,8 @@ var app = new Vue({
         searchH3Id: undefined,
         gotoLatLon: undefined,
         currentH3Res: undefined,
+        currentLat: undefined,
+        currentLon: undefined,
 
     },
 
@@ -139,6 +141,7 @@ var app = new Vue({
                 const h3Bounds = h3.cellToBoundary(h3id);
                 const averageEdgeLength = this.computeAverageEdgeLengthInMeters(h3Bounds);
                 const cellArea = h3.cellArea(h3id, "m2");
+                const coordinate = h3.vertexToLatLng(h3id);
 
                 const tooltipText = `
                 Cell ID: <b>${ h3id }</b>
@@ -146,10 +149,14 @@ var app = new Vue({
                 Average edge length (m): <b>${ averageEdgeLength.toLocaleString() }</b>
                 <br />
                 Cell area (m^2): <b>${ cellArea.toLocaleString() }</b>
+                <br />
+                Lat, Lng: <b>${coordinate[0]}, ${coordinate[1]}</b>
                 `;
 
+                var that = this;
+
                 const h3Polygon = L.polygon(h3BoundsToPolygon(h3Bounds), style)
-                    .on('click', () => copyToClipboard(h3id))
+                    .on('click', function() { copyToClipboard(h3id); that.searchH3Id = h3id; const coord = h3.vertexToLatLng(h3id); that.currentLat = coord[0]; that.currentLon = coord[1]; } )
                     .bindTooltip(tooltipText)
                     .addTo(polygonLayer);
 
@@ -177,6 +184,9 @@ var app = new Vue({
             if (!h3.isValidCell(this.searchH3Id)) {
                 return;
             }
+            const coord = h3.vertexToLatLng(this.searchH3Id);
+            this.currentLat = coord[0];
+            this.currentLon = coord[1];
             const h3Boundary = h3.cellToBoundary(this.searchH3Id);
 
             let bounds = undefined;

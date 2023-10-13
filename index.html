@@ -25,7 +25,7 @@
             <div class="toolbox">
                 <form id="goto" v-on:submit.prevent="gotoLocation">
                     <div class="input-group has-validation">
-                        <input type="text" class="form-control :invalid" v-model="gotoLatLon" placeholder="lat,lon" />
+                        <input type="text" id="locationInput" class="form-control :invalid" v-model="gotoLatLon" placeholder="lat,lon" />
                         <div class="input-group-append">
                             <button type="submit" class="btn btn-primary">Go</button>
                         </div>
@@ -45,6 +45,7 @@
 
                 <hr />
                 Current H3 resolution: <b>{{ currentH3Res }}</b>
+                Current Coordinates: <b>{{ currentLat }}, {{ currentLon }}</b>
                 <hr />
                 <small class="text-muted">Tip: Clicking an H3 cell will copy its id to the clipboard.</small>
             </div>
