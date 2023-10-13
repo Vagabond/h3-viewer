@@ -156,7 +156,7 @@ var app = new Vue({
                 var that = this;
 
                 const h3Polygon = L.polygon(h3BoundsToPolygon(h3Bounds), style)
-                    .on('click', function() { copyToClipboard(h3id); that.searchH3Id = h3id; const coord = h3.vertexToLatLng(h3id); that.currentLat = coord[0]; that.currentLon = coord[1]; } )
+                    .on('click', function() { copyToClipboard(h3id); that.searchH3Id = h3id; const coord = h3.vertexToLatLng(h3id); that.currentLat = coord[0]; that.currentLon = coord[1];  that.updateMapDisplay()} )
                     .bindTooltip(tooltipText)
                     .addTo(polygonLayer);
 
